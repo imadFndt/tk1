@@ -1,8 +1,8 @@
-typealias Matrix = Array<Row>
-typealias Row = IntArray
+import org.jetbrains.kotlinx.multik.api.mk
+import org.jetbrains.kotlinx.multik.api.ndarray
 
 fun main() {
-    val array: Matrix = arrayOf(
+    val array: OldMatrix = arrayOf(
         intArrayOf(1, 0, 1, 1, 0, 0, 0, 1, 0, 0),
         intArrayOf(0, 0, 0, 1, 1, 1, 0, 1, 0, 1),
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
@@ -10,7 +10,7 @@ fun main() {
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 1, 1),
     )
 
-    val array2: Matrix = arrayOf(
+    val array2: OldMatrix = arrayOf(
         intArrayOf(1, 0, 1, 1, 0, 0, 0, 1, 0, 0),
         intArrayOf(1, 0, 1, 0, 1, 1, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
@@ -18,7 +18,7 @@ fun main() {
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 1, 1),
     )
 
-    val array3: Matrix = arrayOf(
+    val array3: OldMatrix = arrayOf(
         intArrayOf(1, 0, 1, 1, 0, 0, 0, 1, 0, 0),
         intArrayOf(0, 0, 0, 0, 1, 1, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
@@ -26,73 +26,23 @@ fun main() {
         intArrayOf(0, 0, 0, 0, 1, 0, 0, 1, 1, 1),
     )
 
-    array2.ref().forEach { println(it.toList()) }
-}
+    val array4: OldMatrix = arrayOf(
+        intArrayOf(1, 0, 1, 1),
+        intArrayOf(1, 0, 1, 0),
+        intArrayOf(0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 1),
+        intArrayOf(0, 1, 0, 0),
+    )
 
-fun Matrix.ref(): Matrix {
-    val result = copy()
-    var row = 0
-    (0 until columns).forEach { i ->
-        val index = result.findFirstOneUnder(column = i, row)
-        when {
-            index == row -> {
-                result.destroyOnes(i, index)
-                row++
-            }
-            index == -1 -> Unit
-            index > row -> {
-                result.swapRows(row, index)
-                result.destroyOnes(i, row)
-                row++
-            }
-        }
-    }
-    return result
-}
+    val mArray1 = mk.ndarray(
+        listOf(
+            listOf(1, 0, 1, 1),
+            listOf(1, 0, 1, 0),
+            listOf(0, 0, 0, 0),
+            listOf(0, 0, 0, 1),
+            listOf(0, 1, 0, 0),
+        )
+    )
 
-fun Matrix.swapRows(destinationIndex: Int, sourceIndex: Int) = let { result ->
-    val sourceRow = result[sourceIndex].copyOf()
-    result[sourceIndex] = result[destinationIndex]
-    result[destinationIndex] = sourceRow
-}
-
-private fun Matrix.findFirstOneUnder(column: Int, row: Int) = column(column).mapIndexed { index, item ->
-    if (index >= row && item == 1) index else null
-}.filterNotNull()
-    .firstOrNull() ?: -1
-
-private fun Matrix.destroyOnes(i: Int, index: Int) {
-    onesInColumn(i, index).forEach { rowIndex ->
-        val a = this[rowIndex] + this[index]
-        this[rowIndex] = a
-    }
-}
-
-private fun Matrix.onesInColumn(column: Int, underRowIndex: Int = 0) = column(column)
-    .mapIndexed { index, item ->
-
-        when (item) {
-
-            1 -> index
-            else -> null
-        }
-    }
-    .filterIndexed { index, item -> index > underRowIndex }
-    .filterNotNull()
-
-fun Matrix.copy() = copyOf().also { copy ->
-    forEachIndexed { i, arr ->
-        copy[i] = arr.copyOf()
-    }
-}
-
-val Matrix.rows get() = size
-val Matrix.columns get() = this[0].size
-
-fun Matrix.column(column: Int) = IntArray(rows) { this[it][column] }
-
-operator fun Row.plus(array: Row) = copyOf().also { copy ->
-    array.forEachIndexed { index, item ->
-        copy[index] = copy[index] xor item
-    }
+    println(mArray1.ref().toString())
 }
