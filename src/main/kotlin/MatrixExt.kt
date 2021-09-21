@@ -1,70 +1,61 @@
-import org.jetbrains.kotlinx.multik.api.toNDArray
-import org.jetbrains.kotlinx.multik.ndarray.data.D2Array
-import org.jetbrains.kotlinx.multik.ndarray.data.*
-import org.jetbrains.kotlinx.multik.ndarray.operations.*
-
-typealias Matrix = D2Array<Int>
-typealias Row = MultiArray<Int, D1>
-
-const val NO_POSITION = -1
-
-val Matrix.rows get() = this.shape.component1()
-val Matrix.columns get() = this.shape.component2()
-
-fun Matrix.column(column: Int) =  this[0.r..this.rows, column].toList()
+import org.jetbrains.kotlinx.multik.ndarray.data.get
+import org.jetbrains.kotlinx.multik.ndarray.data.r
+import org.jetbrains.kotlinx.multik.ndarray.data.set
+import org.jetbrains.kotlinx.multik.ndarray.operations.indexOfFirst
+import org.jetbrains.kotlinx.multik.ndarray.operations.toList
+import utils.*
 
 fun Matrix.ref(): Matrix {
     val result = deepCopy()
+
     var row = 0
+
     (0 until columns).forEach { i ->
-        val index = result.findFirstOneUnder(column = i, row)
-        when {
-            index == row -> {
-                result.destroyOnes(i, index)
-                row++
-            }
-            index == -1 -> Unit
-            index > row -> {
-                result.swapRows(row, index)
-                result.destroyOnes(i, row)
-                row++
-            }
+
+        val index = result.findColumnIndexUnderPosition(column = i, row)
+
+        if (index >= row) {
+
+            if (index != row) result.swapRows(row, index)
+            result.destroyOnes(i, row)
+            row++
         }
     }
     return result
 }
 
-fun Matrix.columnFrom(column: Int, row: Int) = this[row.r..this.rows, column]
+fun Matrix.findColumnIndexUnderPosition(column: Int, row: Int): Int {
 
-operator fun Row.plus(array: Row) = this.mapIndexed { index: Int, item: Int ->
-    item xor array[index]
-}
+    if (row == rows) return -1
 
-fun Matrix.swapRows(destinationIndex: Int, sourceIndex: Int) = let { result ->
-    val sourceRow = result[sourceIndex].deepCopy()
-    result[sourceIndex] = result[destinationIndex]
-    result[destinationIndex] = sourceRow
-}
+    return when (val firstInColumn = this[row.r..rows, column].indexOfFirst { it == 1 }) {
 
-fun Matrix.findFirstOneUnder(column: Int, row: Int) =
-    column(column).mapIndexed { index, item ->
-        if (index >= row && item == 1) index else null
-    }.filterNotNull()
-        .firstOrNull() ?: NO_POSITION
-
-fun Matrix.destroyOnes(i: Int, index: Int) {
-    onesInColumn(i, index).forEach { rowIndex ->
-        val a = this[rowIndex] + this[index]
-        this[rowIndex] = a
+        -1 -> firstInColumn
+        else -> firstInColumn + row
     }
 }
 
-fun Matrix.onesInColumn(column: Int, underRowIndex: Int = 0) = column(column).toList()
-    .mapIndexed { index, item ->
+fun Matrix.destroyOnes(i: Int, index: Int) {
+
+    onesInColumn(
+        column = i,
+        underRowIndex = index
+    ).forEach { rowIndex -> this[rowIndex]
+
+        this[rowIndex] = this[rowIndex] + this[index]
+    }
+}
+
+fun Matrix.onesInColumn(
+    column: Int,
+    underRowIndex: Int = 0,
+    aboveRowIndex: Int = rows
+) = this[0.r..rows, column].toList()
+    .mapIndexedNotNull { index, item ->
+
         when (item) {
             1 -> index
             else -> null
         }
     }
-    .filterNotNull()
-    .filter { it > underRowIndex }
+    .filter { it in (underRowIndex + 1) until aboveRowIndex }
