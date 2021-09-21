@@ -10,8 +10,6 @@ typealias Row = MultiArray<Int, D1>
 val Matrix.rows get() = this.shape.component1()
 val Matrix.columns get() = this.shape.component2()
 
-fun Matrix.column(index: Int) = this[0.r..rows, index]
-
 operator fun Row.plus(array: Row) = mapIndexed { index: Int, item: Int ->
     item xor array[index]
 }

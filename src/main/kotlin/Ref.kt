@@ -2,7 +2,6 @@ import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.r
 import org.jetbrains.kotlinx.multik.ndarray.data.set
 import org.jetbrains.kotlinx.multik.ndarray.operations.indexOfFirst
-import org.jetbrains.kotlinx.multik.ndarray.operations.toList
 import utils.*
 
 fun Matrix.ref(): Matrix {
@@ -45,17 +44,3 @@ fun Matrix.destroyOnes(i: Int, index: Int) {
         this[rowIndex] = this[rowIndex] + this[index]
     }
 }
-
-fun Matrix.onesInColumn(
-    column: Int,
-    underRowIndex: Int = 0,
-    aboveRowIndex: Int = rows
-) = this[0.r..rows, column].toList()
-    .mapIndexedNotNull { index, item ->
-
-        when (item) {
-            1 -> index
-            else -> null
-        }
-    }
-    .filter { it in (underRowIndex + 1) until aboveRowIndex }
