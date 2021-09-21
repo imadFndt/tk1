@@ -40,7 +40,7 @@ fun Matrix.destroyOnes(i: Int, index: Int) {
     onesInColumn(
         column = i,
         underRowIndex = index
-    ).forEach { rowIndex -> this[rowIndex]
+    ).forEach { rowIndex ->
 
         this[rowIndex] = this[rowIndex] + this[index]
     }
