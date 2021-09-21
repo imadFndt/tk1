@@ -7,4 +7,7 @@ fun main() {
     println()
     // 1.2
     println(TestMatrix.array.rref().toString())
+    println()
+    // 1.3
+    println(LinearCode(TestMatrix.array).result)
 }
