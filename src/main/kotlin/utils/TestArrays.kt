@@ -24,4 +24,14 @@ object TestMatrix {
             listOf(0, 1, 0, 0),
         )
     )
+
+    val array3: Matrix = mk.ndarray(
+        listOf(
+            listOf(1, 0, 1, 1, 0, 0, 0, 1, 0, 0),
+            listOf(0, 0, 0, 1, 1, 1, 0, 1, 0, 1),
+            listOf(0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
+            listOf(0, 0, 0, 0, 0, 0, 1, 0, 0, 1),
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+        )
+    )
 }
