@@ -38,7 +38,7 @@ fun Matrix.myMultiply(other: Matrix): Matrix {
         }.toMatrix()
 }
 
-private fun Row.multiply(other: Matrix): Row {
+fun Row.multiply(other: Matrix): Row {
     val result = mk.d1array(other.columns) { 0 }
     (0 until other.columns).forEach { otherColumn ->
 
@@ -59,4 +59,10 @@ fun allWordsForLength(n: Int): CollectionMatrix {
 
         List(n - indexValue.size) { 0 } + indexValue
     }
+}
+
+fun wordsForMultiplicity(multiplicity: Int, length: Int): Matrix {
+    return allWordsForLength(n = length)
+        .filter { it.reduce { acc, i -> acc + i } == multiplicity }
+        .toMatrix()
 }
