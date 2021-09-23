@@ -1,4 +1,5 @@
 import utils.TestMatrix
+import utils.to2DList
 
 fun main() {
 
@@ -10,4 +11,21 @@ fun main() {
     println()
     // 1.3
     println(LinearCode(TestMatrix.array).result)
+    // 1.4
+
+    val firstSet = firstMethod(TestMatrix.array3)
+    println("First Set")
+    println(firstSet.toString())
+
+    val secondSet = secondMethod(TestMatrix.array3)
+
+    println("Second Set")
+    println(secondSet)
+
+    val firstList = firstSet.to2DList()
+    val secondList = secondSet.to2DList()
+
+    println(firstList.containsAll(secondList) && secondList.containsAll(firstList))
+
+    println(distance(secondSet))
 }
