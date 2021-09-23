@@ -22,6 +22,7 @@ fun firstMethod(generatingSet: Matrix): Matrix {
     }
 
     return collectionMatrix.toMatrix()
+        .filterZerosRows()
 }
 
 
@@ -52,7 +53,7 @@ private fun Row.multiply(other: Matrix): Row {
 fun allWordsForLength(n: Int): CollectionMatrix {
 
     val allBinaryCombinations = (2.0.pow(n) - 1).toInt()
-    return (0..allBinaryCombinations).map { index ->
+    return (1..allBinaryCombinations).map { index ->
 
         val indexValue = index.toString(2)
             .map(Character::getNumericValue)

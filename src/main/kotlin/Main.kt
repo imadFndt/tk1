@@ -26,4 +26,6 @@ fun main() {
     val secondList = secondSet.to2DList()
 
     println(firstList.containsAll(secondList) && secondList.containsAll(firstList))
+
+    println(distance(secondSet))
 }
