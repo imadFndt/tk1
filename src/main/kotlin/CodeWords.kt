@@ -25,7 +25,6 @@ fun firstMethod(generatingSet: Matrix): Matrix {
         .filterZerosRows()
 }
 
-
 fun secondMethod(generatingSet: Matrix): Matrix {
     return allWordsForLength(generatingSet.rows).toMatrix().myMultiply(generatingSet)
 }

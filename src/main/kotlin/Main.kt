@@ -1,3 +1,4 @@
+import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
 import utils.TestMatrix
 import utils.to2DList
 
@@ -25,7 +26,19 @@ fun main() {
     val firstList = firstSet.to2DList()
     val secondList = secondSet.to2DList()
 
-    println(firstList.containsAll(secondList) && secondList.containsAll(firstList))
+    println(
+        "First set equals second set: ${firstList.containsAll(secondList) && secondList.containsAll(firstList)}"
+    )
+    println("First * check matrix is zero: ${firstSet.myMultiply(TestMatrix.arrayH).reduce { acc, i -> acc + i } == 0}")
+    println(
+        "Second * check matrix is zero: ${
+            secondSet.myMultiply(TestMatrix.arrayH).reduce { acc, i -> acc + i } == 0
+        }")
 
-    println(distance(secondSet))
+
+    val t = distance(secondSet)
+    val d = t - 1
+    println("t = $t ")
+    println("d = $d ")
+
 }
