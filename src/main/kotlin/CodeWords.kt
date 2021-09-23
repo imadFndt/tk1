@@ -1,5 +1,6 @@
 import org.jetbrains.kotlinx.multik.api.d1array
 import org.jetbrains.kotlinx.multik.api.mk
+import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.r
 import org.jetbrains.kotlinx.multik.ndarray.data.set
@@ -25,7 +26,6 @@ fun firstMethod(generatingSet: Matrix): Matrix {
         .filterZerosRows()
 }
 
-
 fun secondMethod(generatingSet: Matrix): Matrix {
     return allWordsForLength(generatingSet.rows).toMatrix().myMultiply(generatingSet)
 }
@@ -39,7 +39,7 @@ fun Matrix.myMultiply(other: Matrix): Matrix {
         }.toMatrix()
 }
 
-private fun Row.multiply(other: Matrix): Row {
+fun Row.multiply(other: Matrix): Row {
     val result = mk.d1array(other.columns) { 0 }
     (0 until other.columns).forEach { otherColumn ->
 
@@ -60,4 +60,11 @@ fun allWordsForLength(n: Int): CollectionMatrix {
 
         List(n - indexValue.size) { 0 } + indexValue
     }
+}
+
+fun wordsForMultiplicity(multiplicity: Int, length: Int): Matrix {
+    if (multiplicity == 0) return mk.ndarray(listOf(List(length) { 0 }))
+    return allWordsForLength(n = length)
+        .filter { it.reduce { acc, i -> acc + i } == multiplicity }
+        .toMatrix()
 }
