@@ -1,11 +1,12 @@
 import org.jetbrains.kotlinx.multik.api.toNDArray
 import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
-import utils.TestMatrix
-import utils.columns
-import utils.to2DList
-import utils.xorPlus
+import utils.*
 
 fun main() {
+    val linearCode = LinearCode(TestMatrix.array)
+    val allWords = firstMethod(linearCode.matrix)
+
+    fifth(allWords, linearCode)
 
     // 1.1
     println(TestMatrix.array.ref().toString())
@@ -18,7 +19,6 @@ fun main() {
     // 1.4
     fourth()
 
-    fifth()
 }
 
 private fun fourth() {
@@ -44,16 +44,17 @@ private fun fourth() {
         }")
 }
 
-private fun fifth() {
-    val words = secondMethod(TestMatrix.array3)
-    val checkingMatrix = TestMatrix.arrayH
+private fun fifth(words: Matrix, linearCode: LinearCode) {
+    val checkingMatrix = linearCode.result
 
     val t = distance(words)
 
-    val errors = wordsForMultiplicity(1, words.columns).to2DList()
+    val errors = wordsForMultiplicity( 0, words.columns).to2DList()
 
     println("Errors")
-    val chosenError = errors[7]
+
+    // Выбрать ошибку
+    val chosenError = errors[0]
     words.to2DList().forEach { word ->
         val errored = word xorPlus chosenError
         println("___For word: $word, error: $chosenError row: $errored")

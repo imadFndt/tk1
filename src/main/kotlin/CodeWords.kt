@@ -1,5 +1,6 @@
 import org.jetbrains.kotlinx.multik.api.d1array
 import org.jetbrains.kotlinx.multik.api.mk
+import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.r
 import org.jetbrains.kotlinx.multik.ndarray.data.set
@@ -62,6 +63,7 @@ fun allWordsForLength(n: Int): CollectionMatrix {
 }
 
 fun wordsForMultiplicity(multiplicity: Int, length: Int): Matrix {
+    if (multiplicity == 0) return mk.ndarray(listOf(List(length) { 0 }))
     return allWordsForLength(n = length)
         .filter { it.reduce { acc, i -> acc + i } == multiplicity }
         .toMatrix()

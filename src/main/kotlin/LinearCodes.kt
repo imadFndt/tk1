@@ -1,11 +1,8 @@
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
-import org.jetbrains.kotlinx.multik.api.ndarray
-import org.jetbrains.kotlinx.multik.ndarray.data.get
-import org.jetbrains.kotlinx.multik.ndarray.operations.toList
 import utils.*
 
-class LinearCode(matrix: Matrix) {
+class LinearCode(val matrix: Matrix) {
     val result: Matrix
 
     val n: Int
