@@ -11,13 +11,17 @@ import kotlin.math.pow
 
 
 fun firstMethod(generatingSet: Matrix): Matrix {
-    val collectionMatrix = generatingSet.to2DList()
+    val collectionMatrix = generatingSet.to2DList().toMutableList()
 
-    return (collectionMatrix + collectionMatrix.flatMap { row ->
 
-        collectionMatrix.map { row xorPlus it }
-    }).distinct()
-        .toMatrix()
+    for (i in 0 until collectionMatrix.size) {
+        for (j in i until collectionMatrix.size) {
+            val sum = collectionMatrix[i] xorPlus collectionMatrix[j]
+            if (collectionMatrix.contains(sum).not()) collectionMatrix.add(sum)
+        }
+    }
+
+    return collectionMatrix.toMatrix()
 }
 
 

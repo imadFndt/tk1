@@ -22,10 +22,8 @@ fun main() {
     println("Second Set")
     println(secondSet)
 
+    val firstList = firstSet.to2DList()
     val secondList = secondSet.to2DList()
 
-    val compare = firstSet.to2DList().mapNotNull { list ->
-        secondList.find { it == list }
-    }
-    println(secondList == compare)
+    println(firstList.containsAll(secondList) && secondList.containsAll(firstList))
 }
