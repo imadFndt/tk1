@@ -3,6 +3,8 @@ import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
 import utils.*
 
 fun main() {
+    val reff = TestMatrix.array.ref()
+    println(reff)
     val linearCode = LinearCode(TestMatrix.array)
     val allWords = firstMethod(linearCode.matrix)
 
@@ -47,9 +49,12 @@ private fun fourth() {
 private fun fifth(words: Matrix, linearCode: LinearCode) {
     val checkingMatrix = linearCode.result
 
+    println("H__________")
+    println(checkingMatrix.toString())
+    println("H__________end")
     val t = distance(words)
 
-    val errors = wordsForMultiplicity( 0, words.columns).to2DList()
+    val errors = wordsForMultiplicity(2, words.columns).to2DList()
 
     println("Errors")
 
