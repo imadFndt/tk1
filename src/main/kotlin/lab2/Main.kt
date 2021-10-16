@@ -15,7 +15,6 @@ import wordsForMultiplicity
 
 fun main() {
 
-    // взять слово длины n из слова длины k
 
     first()
 }
@@ -143,9 +142,10 @@ private fun doubleError(erroredWord: Row, checkingMatrix: Matrix): List<Int> {
 
     val checkingList = checkingMatrix.to2DList()
     val syndromIndex = checkingList
-        .mapIndexed { index, row ->
-            checkingList.indexOfFirst { (it xorPlus row) == checkSyndrom }
-        }
+        .map { row -> checkingList.indexOfFirst { (it xorPlus row) == checkSyndrom } }
+        .mapIndexed { first, second -> first to second }
+        .shuffled()
+        .first { pair -> pair.second != -1 }.toList()
     if (syndromIndex.isEmpty()) {
         print("Нет ошыбки")
     } else {
