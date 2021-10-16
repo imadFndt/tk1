@@ -16,14 +16,13 @@ import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
 
 fun main() {
-    val columns = 7
-    val rows = 4
-    val distance = 3
 
-    val generatingSet = generateSimpleSet(columns, rows, distance)
+    val generatingSet = TestMatrix.matrixTask2
         .out("G")
-    assert(distance(generatingSet) == distance)
 
+    println("columns: ${generatingSet.columns}")
+    println("rows: ${generatingSet.rows}")
+    println("distance: ${distance(generatingSet)}")
 
     println("Для ошибки размерности 1")
     findErrors(OneSizedErrorSolver, generatingSet)
@@ -33,7 +32,9 @@ fun main() {
     println("Для ошибки размерности 2")
     findErrors(TwoSizedErrorSolver, generatingSet)
 
-    if (distance - 1 < 3) return
+    if (distance(generatingSet) - 1 < 3) return
+
+//    val generatingS
     println()
     println()
     println("Для ошибки размерности 3")
@@ -81,5 +82,21 @@ private fun generateErrorInWord(randomWord: Row, errorProvider: Matrix): Row {
         .out("Ашыбка")
     return (randomWord + randomError)
         .out("Слово с ошибкой")
+}
+
+object TestMatrix {
+    val matrixTask1 get() = generateSimpleSet(columns = 7, rows = 4, d = 3)
+
+    val matrixTask2: Matrix get() {
+        val list = listOf(
+            listOf(1,1,1,1,0,0,0),
+            listOf(1,1,0,0,1,1,0),
+            listOf(0,1,1,0,0,1,1),
+            listOf(0,0,1,1,1,1,1),
+        )
+        val i = mk.identity<Int>(list.size).to2DList()
+        return i.mapIndexed { index, row -> row + list[index] }.toMatrix()
+    }
+
 }
 
