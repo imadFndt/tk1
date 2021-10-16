@@ -1,6 +1,6 @@
 package lab2.utils
 
-import allWordsForLength
+import matrix.allWordsForLength
 import matrix.utils.Matrix
 import matrix.utils.to2DList
 import matrix.utils.toMatrix

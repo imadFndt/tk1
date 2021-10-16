@@ -3,9 +3,7 @@ package lab2.errors
 import matrix.utils.Matrix
 import matrix.utils.to2DList
 import matrix.utils.xorPlus
-import org.jetbrains.kotlinx.multik.ndarray.data.D2
-import org.jetbrains.kotlinx.multik.ndarray.data.NDArray
-import wordsForMultiplicity
+import matrix.wordsForMultiplicity
 
 
 object TwoSizedErrorSolver : ErrorSolver {
@@ -14,20 +12,20 @@ object TwoSizedErrorSolver : ErrorSolver {
         length = length
     )
 
-    override fun findErrorBySyndrom(checkSyndrom: List<Int>, checkingMatrix: NDArray<Int, D2>): List<Int> {
+    override fun findErrorBySyndrom(checkSyndrom: List<Int>, checkingMatrix: Matrix): List<Int> {
 
         val checkingList = checkingMatrix.to2DList()
 
         return checkingList
-            .mapNotNull { row ->
+            .mapIndexed { i, row ->
 
                 when (val index = checkingList.indexOfFirst { (it xorPlus row) == checkSyndrom }) {
 
                     -1 -> null
-                    else -> index
+                    else -> i to index
                 }
             }
-            .mapIndexed { index, value -> listOf(index, value) }
+            .filterNotNull()
             .shuffled()
             .first()
             .toList()

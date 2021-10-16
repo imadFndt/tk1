@@ -1,4 +1,4 @@
-import matrix.LinearCode
+import matrix.*
 import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.toNDArray
 import org.jetbrains.kotlinx.multik.ndarray.operations.reduce

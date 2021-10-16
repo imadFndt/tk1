@@ -1,3 +1,6 @@
+package matrix
+
+import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.d1array
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
@@ -7,7 +10,6 @@ import org.jetbrains.kotlinx.multik.ndarray.data.set
 import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
 import org.jetbrains.kotlinx.multik.ndarray.operations.times
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
-import matrix.utils.*
 import kotlin.math.pow
 
 

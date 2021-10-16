@@ -3,7 +3,6 @@ package matrix
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
 import matrix.utils.*
-import rref
 
 class LinearCode(val matrix: Matrix) {
     val result: Matrix

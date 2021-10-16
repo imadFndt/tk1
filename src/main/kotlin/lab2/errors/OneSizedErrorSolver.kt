@@ -2,7 +2,7 @@ package lab2.errors
 
 import matrix.utils.Matrix
 import matrix.utils.to2DList
-import wordsForMultiplicity
+import matrix.wordsForMultiplicity
 
 object OneSizedErrorSolver : ErrorSolver {
 

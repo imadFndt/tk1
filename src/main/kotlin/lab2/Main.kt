@@ -1,14 +1,14 @@
 package lab2
 
-import distance
 import lab2.errors.ErrorSolver
 import lab2.errors.OneSizedErrorSolver
 import lab2.errors.ThreeSizedErrorSolver
 import lab2.errors.TwoSizedErrorSolver
 import lab2.utils.generateSimpleSet
 import matrix.LinearCode
+import matrix.distance
 import matrix.utils.*
-import multiply
+import matrix.multiply
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.toNDArray
@@ -34,7 +34,6 @@ fun main() {
 
     if (distance(generatingSet) - 1 < 3) return
 
-//    val generatingS
     println()
     println()
     println("Для ошибки размерности 3")
@@ -46,6 +45,7 @@ private fun findErrors(errorSolver: ErrorSolver, generatingSet: Matrix) {
     val linearCode = LinearCode(generatingSet)
     val checkingMatrix = linearCode.result
         .out("H")
+
     checkError(
         generatingSet = generatingSet,
         checkingMatrix = checkingMatrix,
@@ -87,16 +87,11 @@ private fun generateErrorInWord(randomWord: Row, errorProvider: Matrix): Row {
 object TestMatrix {
     val matrixTask1 get() = generateSimpleSet(columns = 7, rows = 4, d = 3)
 
-    val matrixTask2: Matrix get() {
-        val list = listOf(
-            listOf(1,1,1,1,0,0,0),
-            listOf(1,1,0,0,1,1,0),
-            listOf(0,1,1,0,0,1,1),
-            listOf(0,0,1,1,1,1,1),
-        )
-        val i = mk.identity<Int>(list.size).to2DList()
-        return i.mapIndexed { index, row -> row + list[index] }.toMatrix()
-    }
-
+    val matrixTask2: Matrix = listOf(
+        listOf(1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1),
+        listOf(0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0),
+        listOf(0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
+        listOf(0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0),
+    ).toMatrix()
 }
 
