@@ -23,3 +23,15 @@ fun Matrix.swapRows(destinationIndex: Int, sourceIndex: Int) = let { result ->
 fun Matrix.to2DList() = (0 until rows).map {
     this[it].toList()
 }
+
+fun Matrix.out(title: String) = apply {
+    println()
+    println("$title:")
+    println(this)
+}
+
+fun Row.out(title: String) = apply {
+    println()
+    print("$title: ")
+    println(this)
+}
