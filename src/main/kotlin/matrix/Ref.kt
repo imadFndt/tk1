@@ -2,7 +2,7 @@ import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.r
 import org.jetbrains.kotlinx.multik.ndarray.data.set
 import org.jetbrains.kotlinx.multik.ndarray.operations.indexOfFirst
-import utils.*
+import matrix.utils.*
 
 fun Matrix.ref(): Matrix {
     val result = deepCopy()

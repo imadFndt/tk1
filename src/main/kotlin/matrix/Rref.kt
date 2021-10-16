@@ -1,7 +1,7 @@
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.set
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
-import utils.*
+import matrix.utils.*
 
 fun Matrix.rref(): Matrix {
     val result = ref().filterZerosRows().deepCopy()

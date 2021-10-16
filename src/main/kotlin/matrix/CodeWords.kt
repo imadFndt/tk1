@@ -7,7 +7,7 @@ import org.jetbrains.kotlinx.multik.ndarray.data.set
 import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
 import org.jetbrains.kotlinx.multik.ndarray.operations.times
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
-import utils.*
+import matrix.utils.*
 import kotlin.math.pow
 
 

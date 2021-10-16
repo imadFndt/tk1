@@ -1,4 +1,4 @@
-package utils
+package matrix.utils
 
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.data.r

@@ -1,6 +1,7 @@
+import matrix.LinearCode
+import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.toNDArray
 import org.jetbrains.kotlinx.multik.ndarray.operations.reduce
-import utils.*
 
 fun main() {
     val reff = TestMatrix.array.ref()
