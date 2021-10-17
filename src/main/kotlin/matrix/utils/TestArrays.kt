@@ -1,4 +1,4 @@
-package utils
+package matrix.utils
 
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
@@ -6,11 +6,10 @@ import org.jetbrains.kotlinx.multik.api.ndarray
 object TestMatrix {
     val array: Matrix = mk.ndarray(
         listOf(
-            listOf(1, 0, 1, 1, 0, 0, 0, 1, 0, 0),
-            listOf(0, 0, 0, 1, 1, 1, 0, 1, 0, 1),
-            listOf(0, 0, 0, 0, 1, 0, 0, 1, 0, 0),
-            listOf(1, 0, 1, 0, 1, 1, 1, 0, 0, 0),
-            listOf(0, 0, 0, 0, 1, 0, 0, 1, 1, 1),
+            listOf(1, 0, 1, 1, 0, 0, 0, 1, 0),
+            listOf(0, 0, 0, 1, 1, 1, 0, 1, 0),
+            listOf(0, 0, 0, 0, 1, 0, 0, 1, 0),
+            listOf(1, 1, 1, 0, 1, 1, 1, 0, 1),
         )
     )
 

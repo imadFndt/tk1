@@ -1,6 +1,8 @@
+package matrix
+
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
-import utils.*
+import matrix.utils.*
 
 class LinearCode(val matrix: Matrix) {
     val result: Matrix
