@@ -1,5 +1,9 @@
 package lab3
 
+import lab2.checkError
+import lab2.errors.OneSizedErrorSolver
+import lab2.errors.ThreeSizedErrorSolver
+import lab2.errors.TwoSizedErrorSolver
 import matrix.allWordsForLength
 import matrix.utils.Matrix
 import matrix.utils.out
@@ -19,17 +23,50 @@ fun main() {
     val checkingMatrix = createHammingH(r)
         .out("Проверочная матрица")
 
-    createGeneratingMatrix(checkingMatrix, r)
+    val generatingMatrix = createGeneratingMatrix(checkingMatrix, r)
         .out("Порождающая матрица")
 
+    println("\n\nИсследование ошибки длиной один")
+    checkError(
+        generatingSet = generatingMatrix,
+        checkingMatrix = checkingMatrix,
+        errorSolver = OneSizedErrorSolver
+    )
+
+    println("\n\nИсследование ошибки длиной два")
+    checkError(
+        generatingSet = generatingMatrix,
+        checkingMatrix = checkingMatrix,
+        errorSolver = TwoSizedErrorSolver
+    )
+
     println()
-    println("Рassширенный код Хемминга")
+    println("\n\nРassширенный код Хемминга")
     val expandedHammingH = createExpandedHammingH(r)
         .out("Порождающая матрица")
 
-    createGeneratingMatrix(expandedHammingH, r - 1)
+    val generatingMatrixExpanded = createGeneratingMatrix(expandedHammingH, r - 1)
         .out("Порождающая матрица")
 
+    println("\n\nИсследование ошибки длиной один")
+    checkError(
+        generatingSet = generatingMatrixExpanded,
+        checkingMatrix = expandedHammingH,
+        errorSolver = OneSizedErrorSolver
+    )
+
+    println("\n\nИсследование ошибки длиной два")
+    checkError(
+        generatingSet = generatingMatrixExpanded,
+        checkingMatrix = expandedHammingH,
+        errorSolver = TwoSizedErrorSolver
+    )
+    println("\n\nИсследование ошибки длиной три")
+    checkError(
+        generatingSet = generatingMatrixExpanded,
+        checkingMatrix = expandedHammingH,
+        errorSolver = ThreeSizedErrorSolver
+    )
 }
 
 fun createGeneratingMatrix(checkingMatrix: Matrix, r: Int): Matrix {

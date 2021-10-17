@@ -7,8 +7,8 @@ import lab2.errors.TwoSizedErrorSolver
 import lab2.utils.generateSimpleSet
 import matrix.LinearCode
 import matrix.distance
-import matrix.utils.*
 import matrix.multiply
+import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.toNDArray
@@ -53,7 +53,7 @@ private fun findErrors(errorSolver: ErrorSolver, generatingSet: Matrix) {
     )
 }
 
-private fun checkError(generatingSet: Matrix, checkingMatrix: Matrix, errorSolver: ErrorSolver) {
+fun checkError(generatingSet: Matrix, checkingMatrix: Matrix, errorSolver: ErrorSolver) {
 
     val randomWord = generateRandomWord(generatingSet.rows, generatingSet)
     val erroredWord = generateErrorInWord(randomWord, errorSolver.errorsMatrix(generatingSet.columns))
