@@ -1,7 +1,6 @@
 package lab3
 
 import matrix.allWordsForLength
-import matrix.distance
 import matrix.utils.Matrix
 import matrix.utils.out
 import matrix.utils.to2DList
@@ -14,17 +13,23 @@ import kotlin.math.pow
 
 fun main() {
 
-    val r = 5
+    val r = 4
     println("r = $r")
 
     val checkingMatrix = createHammingH(r)
         .out("Проверочная матрица")
 
-    val generaingMatrix = createGeneratingMatrix(checkingMatrix, r)
+    createGeneratingMatrix(checkingMatrix, r)
         .out("Порождающая матрица")
-        .also {
-            println(distance(it))
-        }
+
+    println()
+    println("Рassширенный код Хемминга")
+    val expandedHammingH = createExpandedHammingH(r)
+        .out("Порождающая матрица")
+
+    createGeneratingMatrix(expandedHammingH, r - 1)
+        .out("Порождающая матрица")
+
 }
 
 fun createGeneratingMatrix(checkingMatrix: Matrix, r: Int): Matrix {
@@ -40,4 +45,12 @@ fun createHammingH(r: Int): Matrix {
 
     val identity = mk.identity<Int>(r).to2DList()
     return (allWords + identity).toMatrix()
+}
+
+fun createExpandedHammingH(r: Int): Matrix {
+    return createHammingH(r - 1).to2DList().toMutableList()
+        .apply { add(List(first().size) { 0 }) }
+        .map { it + 1 }
+        .toList()
+        .toMatrix()
 }
