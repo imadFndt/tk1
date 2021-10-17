@@ -16,6 +16,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:multik-default:0.0.1")
 
     testImplementation(kotlin("test-junit"))
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
