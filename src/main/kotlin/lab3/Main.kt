@@ -1,7 +1,9 @@
 package lab3
 
 import lab2.checkError
+import lab2.errors.OneSizedErrorSolver
 import lab2.errors.ThreeSizedErrorSolver
+import lab2.errors.TwoSizedErrorSolver
 import matrix.allWordsForLength
 import matrix.utils.Matrix
 import matrix.utils.out
@@ -15,28 +17,28 @@ import kotlin.math.pow
 
 fun main() {
 
-    val r = 4
+    val r = 3
     println("r = $r")
 
-//    val checkingMatrix = createHammingH(r)
-//        .out("Проверочная матрица")
-//
-//    val generatingMatrix = createGeneratingMatrix(checkingMatrix, r)
-//        .out("Порождающая матрица")
-//
-//    println("\n\nИсследование ошибки длиной один")
-//    checkError(
-//        generatingSet = generatingMatrix,
-//        checkingMatrix = checkingMatrix,
-//        errorSolver = OneSizedErrorSolver
-//    )
-//
-//    println("\n\nИсследование ошибки длиной два")
-//    checkError(
-//        generatingSet = generatingMatrix,
-//        checkingMatrix = checkingMatrix,
-//        errorSolver = TwoSizedErrorSolver
-//    )
+    val checkingMatrix = createHammingH(r)
+        .out("Проверочная матрица")
+
+    val generatingMatrix = createGeneratingMatrix(checkingMatrix, r)
+        .out("Порождающая матрица")
+
+    println("\n\nИсследование ошибки длиной один")
+    checkError(
+        generatingSet = generatingMatrix,
+        checkingMatrix = checkingMatrix,
+        errorSolver = OneSizedErrorSolver
+    )
+
+    println("\n\nИсследование ошибки длиной два")
+    checkError(
+        generatingSet = generatingMatrix,
+        checkingMatrix = checkingMatrix,
+        errorSolver = TwoSizedErrorSolver
+    )
 
     println()
     println("\n\nРassширенный код Хемминга")
@@ -50,19 +52,19 @@ fun main() {
     )
         .out("Порождающая матрица")
 
-//    println("\n\nИсследование ошибки длиной один")
-//    checkError(
-//        generatingSet = generatingMatrixExpanded,
-//        checkingMatrix = expandedHammingH,
-//        errorSolver = OneSizedErrorSolver
-//    )
-//
-//    println("\n\nИсследование ошибки длиной два")
-//    checkError(
-//        generatingSet = generatingMatrixExpanded,
-//        checkingMatrix = expandedHammingH,
-//        errorSolver = TwoSizedErrorSolver
-//    )
+    println("\n\nИсследование ошибки длиной один")
+    checkError(
+        generatingSet = generatingMatrixExpanded,
+        checkingMatrix = expandedHammingH,
+        errorSolver = OneSizedErrorSolver
+    )
+
+    println("\n\nИсследование ошибки длиной два")
+    checkError(
+        generatingSet = generatingMatrixExpanded,
+        checkingMatrix = expandedHammingH,
+        errorSolver = TwoSizedErrorSolver
+    )
     println("\n\nИсследование ошибки длиной три")
     checkError(
         generatingSet = generatingMatrixExpanded,
