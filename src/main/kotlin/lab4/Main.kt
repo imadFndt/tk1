@@ -41,13 +41,15 @@ fun main() {
 //        checkingMatrix = checkingMatrixGolay,
 //        errorSolver = ThreeSizedErrorSolver
 //    )
+    println(ReedMullerCode(1, 2).generatorMatrix)
 
-    println("\n\nИсследование ошибки длиной четыре")
-    checkError(
-        generatingSet = generatingMatrixGolay,
-        checkingMatrix = checkingMatrixGolay,
-        errorSolver = FourSizedErrorSolver
-    )
+//    println("\n\nИсследование ошибки длиной четыре")
+//    checkError(
+//        generatingSet = generatingMatrixGolay,
+//        checkingMatrix = checkingMatrixGolay,
+//        errorSolver = FourSizedErrorSolver
+//    )
+
 
 }
 
