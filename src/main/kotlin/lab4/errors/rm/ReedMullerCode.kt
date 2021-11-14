@@ -58,7 +58,7 @@ class ReedMullerCode(r: Int, val m: Int) {
     }
 }
 
-private infix fun Matrix.kekerMultiply(b: Matrix): Matrix {
+private infix fun Matrix.kroneckerMultiply(b: Matrix): Matrix {
     val a = this
     val multiplied = a.to2DList().map { list -> list.map { b.times(it).to2DList() } }
     return multiplied.flatMap { rowsMatrices ->
@@ -66,9 +66,6 @@ private infix fun Matrix.kekerMultiply(b: Matrix): Matrix {
             rowsMatrices.flatMap { it[rowIndex] }
         }
     }.toMatrix()
-        .apply {
-            println(this)
-        }
 }
 
 fun findReedMullerH(i: Int, m: Int): Matrix {
@@ -79,25 +76,26 @@ fun findReedMullerH(i: Int, m: Int): Matrix {
         listOf(1, 1),
         listOf(1, -1)
     ).toMatrix()
-    return left kekerMultiply H kekerMultiply right
+    return left kroneckerMultiply H kroneckerMultiply right
 }
 
-fun ReedMullerCode.decode(): List<Int> {
-    val erroredWord = listOf(listOf(1, 0, 1, 0, 1, 0, 1, 1)).toMatrix()[0]
+fun ReedMullerCode.decode(word: Row): Row {
+    val erroredWord = word
+        .out("Слово с ошибкой")
 
     val mapped: Row = erroredWord.map {
         when (it == 0) {
             true -> -1
             false -> it
         }
-    }
+    }.out("w̅")
 
     val wS = (1..this.m).fold(mapped) { acc, i ->
 
         acc.multiply(
             other = findReedMullerH(i, m),
             useXor = false
-        )
+        ).out("w${i}")
     }.toList()
 
     val index = wS.indices.maxByOrNull { wS[it].absoluteValue }!!
@@ -106,9 +104,14 @@ fun ReedMullerCode.decode(): List<Int> {
         .let { List(m - it.size) { 0 } + it }
         .reversed()
 
-    return when {
+    val message = when {
         wS[index] > 0 -> listOf(1) + vj
         wS[index] < 0 -> listOf(0) + vj
         else -> emptyList()
     }
+    print("Исходное сообщение равно: $message")
+    return listOf(message)
+        .toMatrix()[0]
+        .multiply(generatorMatrix)
+        .out("Исправленное слово")
 }

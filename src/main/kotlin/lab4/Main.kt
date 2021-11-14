@@ -6,10 +6,12 @@ import lab4.errors.golay.GolayErrorSolver
 import lab4.errors.rm.ReedMullerCode
 import lab4.errors.rm.decode
 import matrix.distance
+import matrix.multiply
 import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.toNDArray
+import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
 
 fun main() {
@@ -53,23 +55,60 @@ fun main() {
         errorSolver = GolayErrorSolver(4)
     )
 
-    ReedMullerCode(1, 3)
+    val rm13 = ReedMullerCode(1, 3)
         .apply {
-            println(
-                """
-                Круто нахуй 
-                
-                ${decode()}
-                
-                """.trimIndent()
-            )
+            generatorMatrix.out("Код РМ 1 3")
         }
-        .generatorMatrix
-        .out("Код РМ 1 3")
+    val originalWord13 = listOf(0, 0, 0, 0, 1, 1, 1, 1)
+        .toRow()
+        .out("Сообщение без ошибки")
+    rm13.decode(
+        listOf(1, 0, 0, 0, 1, 1, 1, 1)
+            .toRow()
+            .out("Однократрая ошибка")
+    ).isMatchWithWord(originalWord13)
+    rm13.decode(
+        listOf(1, 0, 0, 0, 0, 1, 1, 1)
+            .toRow()
+            .out("Двухкратная ошибка")
+    ).isMatchWithWord(originalWord13)
 
-    ReedMullerCode(1, 4)
-        .generatorMatrix
-        .out("Код РМ 1 4")
+
+    val rm14 = ReedMullerCode(1, 4)
+        .apply {
+            generatorMatrix.out("Код РМ 1 4")
+        }
+
+    val originalWord14 = listOf(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+        .toRow()
+        .out("Сообщение без ошибки")
+    rm14.decode(
+        listOf(1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+            .toRow()
+            .out("Однократрая ошибка")
+    ).isMatchWithWord(originalWord14)
+    rm14.decode(
+        listOf(1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+            .toRow()
+            .out("Двухкратная ошибка")
+    ).isMatchWithWord(originalWord14)
+    rm14.decode(
+        listOf(1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1)
+            .toRow()
+            .out("Трёхкратная ошибка")
+    ).isMatchWithWord(originalWord14)
+    rm14.decode(
+        listOf(1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0)
+            .toRow()
+            .out("Четырехкратная ошибка")
+    ).isMatchWithWord(originalWord14)
+
+
+}
+
+fun Row.isMatchWithWord(original: Row): Row {
+    println("Исправленная совпадает с изначальным: ${original.toList() == this.toList()}")
+    return this
 }
 
 fun checkGolayError(generatingSet: Matrix, checkingMatrix: Matrix, errorSolver: GolayErrorSolver) {

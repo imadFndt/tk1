@@ -47,10 +47,10 @@ class GolayErrorSolver(private val multiplicity: Int = 1) : ErrorSolver {
     private fun cond2(checkSyndrom: List<Int>, checkingMatrix: NDArray<Int, D2>): List<Int>? {
         return checkingMatrix.to2DList().mapIndexedNotNull { index, bI ->
 
-            val huetah = checkSyndrom xorPlus bI
+            val checkSyndromBI = checkSyndrom xorPlus bI
 
-            when (huetah.wt()) {
-                in 0..2 -> huetah + List(12) { if (it == index) 1 else 0 }
+            when (checkSyndromBI.wt()) {
+                in 0..2 -> checkSyndromBI + List(12) { if (it == index) 1 else 0 }
                 else -> null
             }
         }.firstOrNull()
