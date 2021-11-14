@@ -41,12 +41,18 @@ fun Matrix.myMultiply(other: Matrix): Matrix {
         }.toMatrix()
 }
 
-fun Row.multiply(other: Matrix): Row {
+fun Row.multiply(other: Matrix, useXor: Boolean = true): Row {
     val result = mk.d1array(other.columns) { 0 }
     (0 until other.columns).forEach { otherColumn ->
 
         val column = other[0.r..other.rows, otherColumn]
-        result[otherColumn] = (this * column).reduce { acc, i -> acc xor i }
+        result[otherColumn] = (this * column).reduce { acc, i ->
+            when (useXor) {
+
+                true -> acc xor i
+                else -> acc + i
+            }
+        }
     }
     return result
 }
@@ -69,4 +75,8 @@ fun wordsForMultiplicity(multiplicity: Int, length: Int): Matrix {
     return allWordsForLength(n = length)
         .filter { it.reduce { acc, i -> acc + i } == multiplicity }
         .toMatrix()
+}
+
+fun newWordsForMultiplicity(multiplicity: Int, length: Int): List<List<Int>> {
+    return listOf((List(multiplicity) { 1 } + List(length - multiplicity) { 0 }).shuffled())
 }

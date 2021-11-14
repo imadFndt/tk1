@@ -1,9 +1,9 @@
 package lab2.errors
 
+import matrix.multiply
 import matrix.utils.Matrix
 import matrix.utils.Row
 import matrix.utils.out
-import matrix.multiply
 import org.jetbrains.kotlinx.multik.ndarray.data.D2
 import org.jetbrains.kotlinx.multik.ndarray.data.NDArray
 import org.jetbrains.kotlinx.multik.ndarray.operations.toList
