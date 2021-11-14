@@ -1,14 +1,16 @@
 package lab4
 
-import lab2.checkError
-import lab2.errors.FourSizedErrorSolver
-import lab2.errors.OneSizedErrorSolver
-import lab2.errors.ThreeSizedErrorSolver
-import lab2.errors.TwoSizedErrorSolver
+import lab2.generateErrorInWord
+import lab2.generateRandomWord
+import lab4.errors.golay.GolayErrorSolver
+import lab4.errors.rm.ReedMullerCode
+import lab4.errors.rm.decode
 import matrix.distance
 import matrix.utils.*
 import org.jetbrains.kotlinx.multik.api.identity
 import org.jetbrains.kotlinx.multik.api.mk
+import org.jetbrains.kotlinx.multik.api.toNDArray
+import org.jetbrains.kotlinx.multik.ndarray.operations.toList
 
 fun main() {
 
@@ -21,36 +23,69 @@ fun main() {
     val generatingMatrixGolay = createGeneratingMatrixGolay(extendedGolayCode)
         .out("Порождающая матрица")
 
-//    println("\n\nИсследование ошибки длиной один")
-//    checkError(
-//        generatingSet = generatingMatrixGolay,
-//        checkingMatrix = checkingMatrixGolay,
-//        errorSolver = OneSizedErrorSolver
-//    )
-//
-//    println("\n\nИсследование ошибки длиной два")
-//    checkError(
-//        generatingSet = generatingMatrixGolay,
-//        checkingMatrix = checkingMatrixGolay,
-//        errorSolver = TwoSizedErrorSolver
-//    )
-//
-//    println("\n\nИсследование ошибки длиной три")
-//    checkError(
-//        generatingSet = generatingMatrixGolay,
-//        checkingMatrix = checkingMatrixGolay,
-//        errorSolver = ThreeSizedErrorSolver
-//    )
-    println(ReedMullerCode(1, 2).generatorMatrix)
+    assert(distance(generatingMatrixGolay) == 8)
 
-//    println("\n\nИсследование ошибки длиной четыре")
-//    checkError(
-//        generatingSet = generatingMatrixGolay,
-//        checkingMatrix = checkingMatrixGolay,
-//        errorSolver = FourSizedErrorSolver
-//    )
+    println("\n\nИсследование ошибки длиной один")
+    checkGolayError(
+        generatingSet = generatingMatrixGolay,
+        checkingMatrix = checkingMatrixGolay,
+        errorSolver = GolayErrorSolver(1)
+    )
 
+    println("\n\nИсследование ошибки длиной два")
+    checkGolayError(
+        generatingSet = generatingMatrixGolay,
+        checkingMatrix = checkingMatrixGolay,
+        errorSolver = GolayErrorSolver(2)
+    )
 
+    println("\n\nИсследование ошибки длиной три")
+    checkGolayError(
+        generatingSet = generatingMatrixGolay,
+        checkingMatrix = checkingMatrixGolay,
+        errorSolver = GolayErrorSolver(3)
+    )
+
+    println("\n\nИсследование ошибки длиной четыре")
+    checkGolayError(
+        generatingSet = generatingMatrixGolay,
+        checkingMatrix = checkingMatrixGolay,
+        errorSolver = GolayErrorSolver(4)
+    )
+
+    ReedMullerCode(1, 3)
+        .apply {
+            println(
+                """
+                Круто нахуй 
+                
+                ${decode()}
+                
+                """.trimIndent()
+            )
+        }
+        .generatorMatrix
+        .out("Код РМ 1 3")
+
+    ReedMullerCode(1, 4)
+        .generatorMatrix
+        .out("Код РМ 1 4")
+}
+
+fun checkGolayError(generatingSet: Matrix, checkingMatrix: Matrix, errorSolver: GolayErrorSolver) {
+
+    val randomWord = generateRandomWord(generatingSet.rows, generatingSet)
+    val erroredWord = generateErrorInWord(randomWord, errorSolver.errorsMatrix(generatingSet.columns))
+    val error = errorSolver.findError(erroredWord, checkingMatrix)
+
+    if (error.isEmpty()) {
+
+        println("Ашыбка не нашлась")
+        return
+    }
+
+    val fixed = (erroredWord + error.toNDArray()).out("Исправленная ошибка")
+    println("Исправленная совпадает с изначальным: ${fixed.toList() == randomWord.toList()}")
 }
 
 fun createExtendedGolayCode(): Matrix = listOf(

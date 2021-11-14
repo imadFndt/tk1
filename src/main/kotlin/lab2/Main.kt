@@ -66,7 +66,7 @@ fun checkError(generatingSet: Matrix, checkingMatrix: Matrix, errorSolver: Error
     println("Исправленная совпадает с изначальным: ${fixed.toList() == randomWord.toList()}")
 }
 
-private fun generateRandomWord(rows: Int, generatingSet: Matrix): Row {
+fun generateRandomWord(rows: Int, generatingSet: Matrix): Row {
 
     val identity = mk.identity<Int>(rows)
     val chosenIdentity = identity[(0 until rows).random()]
@@ -76,9 +76,9 @@ private fun generateRandomWord(rows: Int, generatingSet: Matrix): Row {
         .out("Полученное слово")
 }
 
-private fun generateErrorInWord(randomWord: Row, errorProvider: Matrix): Row {
+fun generateErrorInWord(randomWord: Row, errorProvider: Matrix): Row {
 
-    val randomError = errorProvider[(0 until randomWord.size).random()]
+    val randomError = errorProvider[(0 until errorProvider.rows).random()]
         .out("Ашыбка")
     return (randomWord + randomError)
         .out("Слово с ошибкой")
