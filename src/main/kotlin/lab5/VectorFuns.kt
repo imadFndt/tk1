@@ -1,7 +1,6 @@
 package lab5
 
 import matrix.allWordsForLength
-import matrix.utils.Row
 import matrix.utils.xorPlus
 import kotlin.math.pow
 
@@ -45,13 +44,8 @@ fun vectorICombination(r: Int, m: Int): List<List<List<Int>>> {
 fun generateBitmask(r: Int, m: Int): List<List<List<Int>>> {
     val result = List(r + 1) { mutableListOf<List<Int>>() }
     (0 until 2.0.pow(m).toInt()).forEach huy@{ num ->
-
-        val list = num.toBinaryList()
-            .toMutableList()
-
-        while (list.size < m) {
-            list.add(0, 0)
-        }
+        val list = num.toBinaryList().toMutableList()
+        while (list.size < m) list.add(0, 0)
         val realSize = list.filter { it != 0 }.size
         if (realSize > r) return@huy
         result[realSize] += list
@@ -70,28 +64,25 @@ fun majorDecode(r: Int, m: Int, word: List<Int>): List<Int> {
         masks[i].forEach { mask ->
             len++
             val I = mask.mapIndexedNotNull { index, i -> if (i == 1) index else null }
-            val reversedMask = mask.map { it xor 1 }
-            val IC = reversedMask.mapIndexedNotNull { index, i -> if (i == 1) index else null }
+            val IC = mask.findIC()
             val H = words.filter { v(I, it) == 1 }
-            val v_t = H.map { h -> words.map { w -> v(IC, w xorPlus h) } }
-            val wWithT = v_t.map { v ->
-                v.foldIndexed(0) { index, acc, i ->
-                    (acc + i * wordCopy[index]) % 2
-                }
-            }
-            val decision = (wWithT.sum() * 2) > wWithT.size
-            if (decision) {
+            val v_t = H.findVT(words, IC)
+            val wWithT = v_t.map { v -> v.foldIndexed(0) { index, acc, i -> (acc + i * wordCopy[index]) % 2 } }
+            if ((wWithT.sum() * 2) > wWithT.size) {
                 arr += words.map { x -> v(I, x) }
                 res += I
             }
         }
-        arr.forEach { x -> wordCopy = wordCopy xorPlus x }
+        wordCopy = arr.fold(wordCopy) { acc, list -> acc xorPlus list }
     }
     val answer = List(len) { 0 }.toMutableList()
     val IOrder = g(r, m).map { it.second }
-    res.forEach { x ->
-        val index = IOrder.indexOf(x)
-        answer[index] = 1
-    }
+    res.forEach { x -> answer[IOrder.indexOf(x)] = 1 }
     return answer
 }
+
+private fun List<Int>.findIC() = map { it xor 1 }
+    .mapIndexedNotNull { index, i -> if (i == 1) index else null }
+
+private fun List<List<Int>>.findVT(words: List<List<Int>>, IC: List<Int>) =
+    map { h -> words.map { w -> v(IC, w xorPlus h) } }
