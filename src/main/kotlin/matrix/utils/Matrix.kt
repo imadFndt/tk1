@@ -35,3 +35,14 @@ fun Row.out(title: String) = apply {
     print("$title: ")
     println(this)
 }
+
+fun Any.outTitle(title: String) = apply {
+    println()
+    print("$title: ")
+    println(this)
+}
+
+fun Any.outText(title: String) = apply {
+    print("$title: ")
+    println(this)
+}
