@@ -58,10 +58,11 @@ fun Row.multiply(other: Matrix, useXor: Boolean = true): Row {
 }
 
 
-fun allWordsForLength(n: Int): CollectionMatrix {
+fun allWordsForLength(n: Int, zeroIncluded: Boolean = false): CollectionMatrix {
 
+    val start = if (zeroIncluded) 0 else 1
     val allBinaryCombinations = (2.0.pow(n) - 1).toInt()
-    return (1..allBinaryCombinations).map { index ->
+    return (start..allBinaryCombinations).map { index ->
 
         val indexValue = index.toString(2)
             .map(Character::getNumericValue)

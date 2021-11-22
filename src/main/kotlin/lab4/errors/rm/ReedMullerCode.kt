@@ -61,11 +61,8 @@ class ReedMullerCode(r: Int, val m: Int) {
 private infix fun Matrix.kroneckerMultiply(b: Matrix): Matrix {
     val a = this
     val multiplied = a.to2DList().map { list -> list.map { b.times(it).to2DList() } }
-    return multiplied.flatMap { rowsMatrices ->
-        (rowsMatrices.first().indices).map { rowIndex ->
-            rowsMatrices.flatMap { it[rowIndex] }
-        }
-    }.toMatrix()
+    return multiplied.flatMap { rowsMatrices -> (rowsMatrices.first().indices).map { rowIndex -> rowsMatrices.flatMap { it[rowIndex] } } }
+        .toMatrix()
 }
 
 fun findReedMullerH(i: Int, m: Int): Matrix {
